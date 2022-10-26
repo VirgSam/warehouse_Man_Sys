@@ -1,4 +1,4 @@
-# warehouse_Man_Sys
+# Warehouse_Man_Sys
 
 A Warehouse Management System 
 
