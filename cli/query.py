@@ -31,7 +31,7 @@ def option1():
     for item in warehouse2:
         print("-",item)
 
-def item_counter(warehouse:list, location:str):
+def item_counter(warehouse:list, location:str)->None:
     for item in warehouse:
         item_count=warehouse.count(user_item)
     print(f"Total number of {user_item}s {location}: {item_count}")
