@@ -36,61 +36,59 @@ def option1():
             print(f"Total items in warehouse1: {len(warehouse1)}")
             print(f"Total items in warehouse2: {len(warehouse2)}")
             print('')
-            print('Thank you for your visit.')
+            goodbye()
             break
-    
-
-def item_counter(warehouse:list, location:str)->None:
-    for item in warehouse:
-        item_count=warehouse.count(user_item)
-    print(f"Total number of {user_item}s {location}: {item_count}")
 
 def option2():
-    total_warehouse = warehouse1 + warehouse2
-
-    locationt= "in both warehouses"
-    location1= "in Warehouse 1 is "
-    location2= "in Warehouse 2 is "
-    
-    item_counter(total_warehouse,locationt)
-    item_counter(warehouse1,location1) 
-    item_counter(warehouse2,location2)  
-        
-    if user_item in warehouse1:
-        if user_item in warehouse2:
-            print(f"{user_item} is located in both Warehouses.")
-    elif user_item in warehouse1:
-        if not user_item in warehouse2:
-            print(f"{user_item} can only be found in one Warehouse.")       
-    if warehouse1.count(user_item)>warehouse2.count(user_item):
-        print(f"{user_item} has a higher amount of inventory in Warehouse 1 with {warehouse1.count(user_item)} units.")
-    if warehouse2.count(user_item)>warehouse1.count(user_item):
-        print(f"{user_item} has a higher amount of inventory in Warehouse 2 with {warehouse2.count(user_item)} units.")
-    
-    if not user_item in warehouse1:
-        if not user_item in warehouse2:
-            print(f"{user_item} is Not in stock") 
-    else: 
-        buy_sig=input("Would you like to place an order? choose option Y/N: ") 
-        buy_sig = buy_sig.lower()
-        if buy_sig=="n":
-            goodbye()
-        elif buy_sig=="y":
-            amt_prod=warehouse1.count(user_item)+warehouse2.count(user_item)
-            num_prod = int(input(f"how many units of {user_item} would you like to purchase. ")) # closing the trxn should fall under this else statement.
-            if num_prod<=(warehouse1.count(user_item)+warehouse2.count(user_item)):
-                amt_prod=warehouse1.count(user_item)+warehouse2.count(user_item)
-                print(f"An order has been placed for item: { user_item } Quantity: {num_prod}")
-                goodbye()
+    while True:    
+        if user_input == 2:
+            item_name = input('What is the name of the item? ')
+            wh1 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 1 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+            wh2 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 2 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+            if len(wh1 + wh2) == 0:
+                print("Amount available: 0")
+                print('Location: Not in Stock')
             else:
-                print(" **************************************************")
-                print(f"There are not this many available. The maximum amount that can be ordered is {amt_prod} ")
-                print(" **************************************************")
-                print("Please return to the user menu if you wish to amend your order. ")
-                goodbye()
-    
+                today = datetime.datetime.now()
+                for item in wh1:
+                    print(f"- Warehouse1 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+                for item in wh2:
+                    print(f"- Warehouse2 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+                
+                if len(wh1) > 0 or len(wh2) > 0:
+                    wh_d = {len(wh1): 'Warehouse 1', len(wh2): 'Warehouse 2'}
+                    maximum = max(wh_d.keys())
+                    print(f"Maximum availability: {maximum} in {wh_d[maximum]}")
+                break
 
+def option3():
+    while True:
+        if user_input == 3:
+            categories = [item['category'] for item in stock ]
+            categories_ct = collections.Counter(categories)
+            cat_d = {id: f"{category} ({categories_ct[category]})" for id, category in enumerate(categories_ct, start = 1)}
+            print()
+            for id, category in cat_d.items():
+                print(f"{id}. {category}")
+            get_id = int(input('Choose a category'))
+            print()
+            selected_cat = cat_d[get_id].split(" ")[0]
+            print(f'List of {selected_cat} available:')
 
+            wh1 = [ f"{item['state']} {item['category']}" 
+            for item in stock if item.get('warehouse') == 1 and item.get('category') == selected_cat]
+            wh2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2 and item.get('category') == selected_cat]
+
+            print(len(set(wh1)))
+            print(len(set(wh2)))
+            print(list(zip(set(wh1), set(wh2))))
+            print(list(zip_longest(set(wh1), set(wh2), fillvalue=False)))
+
+            for item_wh1, item_wh2 in zip_longest(set(wh1), set(wh2), fillvalue=False):
+                if item_wh1: print(f"{item_wh1}, warehouse1")
+                if item_wh2: print(f"{item_wh2}, warehouse2")
+            goodbye()
+            break
 
 # Get the user name
 name = input("Please enter your Name: ")
@@ -102,20 +100,18 @@ user_input = int(input("Choose between 1-4. "))
 # If they pick 1
 if user_input==1:
     option1()
-    
 
 # Else, if they pick 2
-elif choice==2:
+elif user_input==2:
     user_item = input("Please input the item of your choice: ")
     option2()
     
 # Else, if they pick 3
-# Thank the user for the visit
-elif choice==3:
+elif user_input==3:
+    option3()
+# Else, Thank the user for the visit
+elif user_input==4:
     goodbye()
-# Else
-else:
-    print("Error incorrect option selected: ")
 
 
 
