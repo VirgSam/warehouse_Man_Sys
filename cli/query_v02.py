@@ -7,7 +7,10 @@ for item in warehouse1:
     # The `item` name will contain each of the strings (item names) in the list.
 """
 
-from data import warehouse1, warehouse2
+from data import stock
+import datetime
+import collections
+from itertools import zip_longest
 
 # YOUR CODE STARTS HERE
 def goodbye():
@@ -15,21 +18,27 @@ def goodbye():
 
 def user_menu():
     # Show the menu and ask to pick a choice
-    print("User Menu: Please select between options 1-3: ")
-    print("1. List items by warehouse", "2. Search an item and place an order", "3. Quit", sep='\n')
+    print('1: List all items')
+    print('2: search and place order')
+    print('3: browse by category')
+    print('4: Quit')
     
 
 def option1():
-    print()
-    print("*****Warehouse 1 inventory:***** ")
-    print()
-    for item in warehouse1:
-        print("-", item)
-    print()
-    print("*****Warehouse 2 inventory:***** ")
-    print()
-    for item in warehouse2:
-        print("-",item)
+    while True:
+        if user_input == 1:
+            warehouse1 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 1]
+            warehouse2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2]
+
+            for item in set(warehouse1) | set(warehouse2):
+                print('')
+                print('-', item)
+            print(f"Total items in warehouse1: {len(warehouse1)}")
+            print(f"Total items in warehouse2: {len(warehouse2)}")
+            print('')
+            print('Thank you for your visit.')
+            break
+    
 
 def item_counter(warehouse:list, location:str)->None:
     for item in warehouse:
@@ -67,12 +76,16 @@ def option2():
         if buy_sig=="n":
             goodbye()
         elif buy_sig=="y":
+            amt_prod=warehouse1.count(user_item)+warehouse2.count(user_item)
             num_prod = int(input(f"how many units of {user_item} would you like to purchase. ")) # closing the trxn should fall under this else statement.
             if num_prod<=(warehouse1.count(user_item)+warehouse2.count(user_item)):
+                amt_prod=warehouse1.count(user_item)+warehouse2.count(user_item)
                 print(f"An order has been placed for item: { user_item } Quantity: {num_prod}")
                 goodbye()
             else:
-                print("Unfortunately we do not have enough stock to complete this transaction. ")
+                print(" **************************************************")
+                print(f"There are not this many available. The maximum amount that can be ordered is {amt_prod} ")
+                print(" **************************************************")
                 print("Please return to the user menu if you wish to amend your order. ")
                 goodbye()
     
@@ -84,10 +97,10 @@ name = input("Please enter your Name: ")
 # Greet the user
 print(f"Hello {name} welcome to the Warehouse Management System: ")
 user_menu()
-choice = int(input("Enter option: "))
+user_input = int(input("Choose between 1-4. "))
 
 # If they pick 1
-if choice==1:
+if user_input==1:
     option1()
     
 
