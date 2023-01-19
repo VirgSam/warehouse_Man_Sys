@@ -36,7 +36,7 @@ def get_user_input():
 
 
 def option1():
-    while True:
+    while True: # remove the while true here and input into master main function at the end of file
         if user_input == 1:
             warehouse1 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 1]
             warehouse2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2]
@@ -55,7 +55,7 @@ def option1():
             break
 
 def option2():
-    while True:    
+    while True:    # remove the while true here and input into master main function at the end of file
         if user_input == 2:
             item_name = input('What is the name of the item? ')
             wh1 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 1 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
