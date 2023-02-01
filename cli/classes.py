@@ -4,8 +4,7 @@ class User():
     def __init__(self,user_name:str) -> None:
         self._name = user_name
         self.is_authenticated:bool = False
-        pass
-
+        
     def authenticate(self,password:str) -> False:
         return False
 
@@ -21,18 +20,24 @@ class User():
         
     def bye(self,actions:list) -> None:
         print(f"Thank you for your visit, {self._name}")
-        print("Summary of actions: ")
-        print(actions,end='\n')
+        #print("Summary of actions: ")
+        #print(actions,end='\n')
 
 
 class Employee(User):
-    def __init__(self, user_name: str) -> None:
+    def __init__(self, user_name:str, password:str, head_of:None) -> None:
         super().__init__(user_name)
+        self.__password=password
+        if head_of == None:
+            self.head_of=[]
+        else:
+            self.head_of=head_of
     
     def greet(self) -> None:
         print(f"Hello, {self._name}")
         print("If you experience a problem with the system,")
         print("please contact technical support.")
+    
 
     pass
 
