@@ -2,8 +2,12 @@ from datetime import datetime
 
 class User():
     def __init__(self,user_name:str) -> None:
-        self._name = user_name
+        if not user_name:
+            self._name = "Anonymous"
+        else:
+            self._name = user_name
         self.is_authenticated:bool = False
+        # include anonymous as part of constructor
         
     def authenticate(self,password:str) -> False:
         return False
@@ -13,31 +17,39 @@ class User():
             return True
  
     def greet(self) -> None:
-        print(f"Hello, {self._name}")
-        print("Welcome to our Warehouse Database.")
-        print("If you don't find what you are looking for,")
-        print("please ask one of our staff members to assist you.")
+        print(f"""Hello, {self._name}
+            Welcome to our Warehouse Database.
+            If you don't find what you are looking for,
+            please ask one of our staff members to assist you."""
+            )
         
     def bye(self,actions:list) -> None:
         print(f"Thank you for your visit, {self._name}")
         #print("Summary of actions: ")
         #print(actions,end='\n')
+    
+    def __repr__(self) -> str:
+        return f"I am {self._name}"
 
 
 class Employee(User):
     def __init__(self, user_name:str, password:str, head_of:None) -> None:
         super().__init__(user_name)
-        self.__password=password
+        self.__password = password
         if head_of == None:
-            self.head_of=[]
+            self.head_of = []
         else:
-            self.head_of=head_of
+            self.head_of = head_of
     
     def greet(self) -> None:
         print(f"Hello, {self._name}")
         print("If you experience a problem with the system,")
         print("please contact technical support.")
     
+    def authenticate(self,password:str) -> False:
+        super().authenticate
+        # recursive authentication from class notes
+        return False
 
     pass
 
@@ -60,9 +72,16 @@ class Warehouse():
     def __init__(self, warehouse_id:int) -> None:
         self.warehouse_id = warehouse_id
         self.stock = []
+
     def occupancy(self) -> int:
         return f"Occupancy: {len(self.stock)}"
+
     def add_item(self,item:Item) -> None:
         self.stock.append(item)
+
     def search(self,item:str) -> list:
         pass
+
+em = Employee("Jan","xyz",None)
+em2 = Employee("","xyz",None)
+print(em2)
