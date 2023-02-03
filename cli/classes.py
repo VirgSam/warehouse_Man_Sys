@@ -81,13 +81,16 @@ class Employee(User):
         # iterate over personel objects list and check if self.name__str__ and self.__password are
         if self.__password==password:
             return True
-
-        
-        # see zoom pic from pawel
-        
     
     def order(self,item:Item, amount:int):
-        pass
+        self.item = item 
+        self.amount = amount 
+        return f"{self.item} was ordered, amount ordered: {self.amount}"
+    
+    def bye(self,actions:list) -> None:
+        super().bye()
+        print("Summary of actions: ")
+        print(actions,end='\n')
 
 
 
