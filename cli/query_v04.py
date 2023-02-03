@@ -8,10 +8,14 @@ for item in warehouse1:
 """
 
 from data import stock
+from data import personnel, stock
 from loader import Loader
 import datetime
 import collections
 from itertools import zip_longest
+
+personnel = Loader(model="personnel")
+stock = Loader(model="stock")
 
 # YOUR CODE STARTS HERE
 def get_user_name():

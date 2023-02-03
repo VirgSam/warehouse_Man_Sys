@@ -86,7 +86,7 @@ class Employee(User):
         # see zoom pic from pawel
         
     
-    def order(self,item:Item):
+    def order(self,item:Item, amount:int):
         pass
 
 
