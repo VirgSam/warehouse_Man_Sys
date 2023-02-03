@@ -61,7 +61,7 @@ class User():
 
 
 class Employee(User):
-    def __init__(self, user_name:str, password:str, head_of:None) -> None:
+    def __init__(self, user_name:str, password:str, head_of=None) -> None:
         super().__init__(user_name)
         self.__password = password
         if head_of == None:
