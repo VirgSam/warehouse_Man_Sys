@@ -8,6 +8,7 @@ for item in warehouse1:
 """
 
 from data import stock
+from loader import Loader
 import datetime
 import collections
 from itertools import zip_longest

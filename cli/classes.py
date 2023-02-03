@@ -1,5 +1,33 @@
 from datetime import datetime
 
+class Item():
+    def __init__(self, state:str,category:str, warehouse: int,date_of_stock:datetime) -> None:
+        self.state = state
+        self.category = category
+        self.warehouse = warehouse
+        self.date_of_stock = date_of_stock
+    
+    def __str__(self) -> str:
+        return f"Item: {self.state} {self.category}"
+        
+    def __repr__(self) -> str:
+        return f"Item: a {self.state} {self.category} located in Warehouse:{self.warehouse} date of stock: {self.date_of_stock}"
+
+
+class Warehouse():
+    def __init__(self, warehouse_id:int) -> None:
+        self.warehouse_id = warehouse_id
+        self.stock = []
+
+    def occupancy(self) -> int:
+        return f"Occupancy: {len(self.stock)}"
+
+    def add_item(self,item:Item) -> None:
+        self.stock.append(item)
+
+    def search(self,item:str) -> list:
+        pass
+
 class User():
     def __init__(self,user_name:str) -> None:
         if not user_name:
@@ -47,41 +75,24 @@ class Employee(User):
         print("please contact technical support.")
     
     def authenticate(self,password:str) -> False:
-        super().authenticate
+        super().authenticate(password)
         # recursive authentication from class notes
-        return False
+        # get self.name and self.__password
+        # iterate over personel objects list and check if self.name__str__ and self.__password are
+        if self.__password==password:
+            return True
 
-    pass
-
-
-class Item():
-    def __init__(self, state:str,category:str, warehouse: int,date_of_stock:datetime) -> None:
-        self.state = state
-        self.category = category
-        self.warehouse = warehouse
-        self.date_of_stock = date_of_stock
-    
-    def __str__(self) -> str:
-        return f"Item: {self.state} {self.category}"
         
-    def __repr__(self) -> str:
-        return f"Item: a {self.state} {self.category} located in Warehouse:{self.warehouse} date of stock: {self.date_of_stock}"
-
-
-class Warehouse():
-    def __init__(self, warehouse_id:int) -> None:
-        self.warehouse_id = warehouse_id
-        self.stock = []
-
-    def occupancy(self) -> int:
-        return f"Occupancy: {len(self.stock)}"
-
-    def add_item(self,item:Item) -> None:
-        self.stock.append(item)
-
-    def search(self,item:str) -> list:
+        # see zoom pic from pawel
+        
+    
+    def order(self,item:Item):
         pass
+
+
+
 
 em = Employee("Jan","xyz",None)
 em2 = Employee("","xyz",None)
 print(em2)
+print(em)
