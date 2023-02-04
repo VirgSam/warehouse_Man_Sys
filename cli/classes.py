@@ -97,5 +97,5 @@ class Employee(User):
 
 em = Employee("Jan","xyz",None)
 em2 = Employee("","xyz",None)
-print(em2)
-print(em)
+# print(em2)
+# print(em)

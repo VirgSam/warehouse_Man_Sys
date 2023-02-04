@@ -7,15 +7,14 @@ for item in warehouse1:
     # The `item` name will contain each of the strings (item names) in the list.
 """
 
-from data import stock
+
 from data import personnel, stock
-from loader import Loader
 import datetime
 import collections
 from itertools import zip_longest
-
-personnel = Loader(model="personnel")
-stock = Loader(model="stock")
+#from loader import Loader
+#personnel = Loader(model="personnel")
+#stock = Loader(model="stock")
 
 # YOUR CODE STARTS HERE
 def get_user_name():
@@ -42,48 +41,46 @@ def get_user_input():
 
 def list_items_by_warehouse():
     
-    if user_input == 1:
-        warehouse1 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 1]
-        warehouse2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2]
-        warehouse3 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 3]
-        warehouse4 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 4]
-        for item in set(warehouse1) | set(warehouse2) | set(warehouse3)| set(warehouse4):
-            print('')
-            print('-', item)
-        print(f"Total items in warehouse1: {len(warehouse1)}")
-        print(f"Total items in warehouse2: {len(warehouse2)}")
-        print(f"Total items in warehouse3: {len(warehouse3)}")
-        print(f"Total items in warehouse4: {len(warehouse4)}")
+    warehouse1 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 1]
+    warehouse2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2]
+    warehouse3 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 3]
+    warehouse4 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 4]
+    for item in set(warehouse1) | set(warehouse2) | set(warehouse3)| set(warehouse4):
         print('')
-        goodbye()
+        print('-', item)
+    print(f"Total items in warehouse1: {len(warehouse1)}")
+    print(f"Total items in warehouse2: {len(warehouse2)}")
+    print(f"Total items in warehouse3: {len(warehouse3)}")
+    print(f"Total items in warehouse4: {len(warehouse4)}")
+    print('')
+    goodbye()
             
 
 def search_and_order_item():
     
-    if user_input == 2:
-        item_name = input('What is the name of the item? ')
-        wh1 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 1 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-        wh2 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 2 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-        wh3 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 3 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-        wh4 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 4 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-        if len(wh1 + wh2 + wh3 + wh4) == 0:
-            print("Amount available: 0")
-            print('Location: Not in Stock')
-        else:
-            today = datetime.datetime.now()
-            for item in wh1:
-                print(f"- Warehouse1 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-            for item in wh2:
-                print(f"- Warehouse2 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-            for item in wh3:
-                print(f"- Warehouse3 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-            for item in wh4:
-                print(f"- Warehouse4 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-            
-            if len(wh1) > 0 or len(wh2) > 0 or len(wh3) > 0 or len(wh4) > 0:
-                wh_d = {len(wh1): 'Warehouse 1', len(wh2): 'Warehouse 2', len(wh3): 'Warehouse 3', len(wh4): 'Warehouse 4'}
-                maximum = max(wh_d.keys())
-                print(f"Maximum availability: {maximum} in {wh_d[maximum]}")
+    item_name = input('What is the name of the item? ')
+    wh1 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 1 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+    wh2 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 2 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+    wh3 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 3 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+    wh4 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 4 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+    if len(wh1 + wh2 + wh3 + wh4) == 0:
+        print("Amount available: 0")
+        print('Location: Not in Stock')
+    else:
+        today = datetime.datetime.now()
+        for item in wh1:
+            print(f"- Warehouse1 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+        for item in wh2:
+            print(f"- Warehouse2 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+        for item in wh3:
+            print(f"- Warehouse3 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+        for item in wh4:
+            print(f"- Warehouse4 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+        
+        if len(wh1) > 0 or len(wh2) > 0 or len(wh3) > 0 or len(wh4) > 0:
+            wh_d = {len(wh1): 'Warehouse 1', len(wh2): 'Warehouse 2', len(wh3): 'Warehouse 3', len(wh4): 'Warehouse 4'}
+            maximum = max(wh_d.keys())
+            print(f"Maximum availability: {maximum} in {wh_d[maximum]}")
                 
 
 def browse_by_category():
