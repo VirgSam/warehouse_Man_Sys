@@ -12,6 +12,7 @@ from data import personnel, stock
 import datetime
 import collections
 from itertools import zip_longest
+import re
 #from loader import Loader
 #personnel = Loader(model="personnel")
 #stock = Loader(model="stock")
@@ -38,21 +39,27 @@ def get_user_input():
     user_input = int(input("Choose between 1-4. "))
     return user_input
 
+def list_items_by_one_warehouse(num):
+    wh = [f"{item['state']} {item['category']}" for item in stock if item['warehouse'] == num]
+    return wh
+
+def max_warehouse():
+    return max([item['warehouse'] for item in stock])
 
 def list_items_by_warehouse():
     
-    warehouse1 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 1]
-    warehouse2 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 2]
-    warehouse3 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 3]
-    warehouse4 = [ f"{item['state']} {item['category']}" for item in stock if item.get('warehouse') == 4]
-    for item in set(warehouse1) | set(warehouse2) | set(warehouse3)| set(warehouse4):
-        print('')
-        print('-', item)
-    print(f"Total items in warehouse1: {len(warehouse1)}")
-    print(f"Total items in warehouse2: {len(warehouse2)}")
-    print(f"Total items in warehouse3: {len(warehouse3)}")
-    print(f"Total items in warehouse4: {len(warehouse4)}")
-    print('')
+    number_of_warehouses = max_warehouse()
+    print(number_of_warehouses)
+    warehouses_dict = {}
+    for wh_num in range(1, number_of_warehouses + 1):
+        wh = list_items_by_one_warehouse(wh_num)
+        warehouses_dict[f"total_items_wh{wh_num}"] = len(wh)
+        
+    for key, amount in warehouses_dict.items():
+        wh_num = re.findall('\d+', key)[0]
+        print(f'Warehouse {wh_num}:', warehouses_dict[key])
+        
+    print('Thank you for your visit!')
     goodbye()
             
 

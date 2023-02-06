@@ -14,6 +14,7 @@ from loader import Loader
 
 #get_user_name()
 #search_and_order_item("High quality Game console")
+import re
 
 def list_items_by_one_warehouse(num):
     wh = [f"{item['state']} {item['category']}" for item in stock if item['warehouse'] == num]
