@@ -26,6 +26,7 @@ def greet_user(name):
     print(f" Hello {name} welcome to the Warehouse Management System: ")
     
 def goodbye():
+    # include the end session logs
     print(f"Thank you for your visit {name}, wishing you a plesant day.")
 
 def user_menu():
@@ -81,23 +82,10 @@ def search_and_order_item():
     # search for Item, search for maximum amount return to main menu and search for unlimited number of warehouses
     if amount_available != 0:
         print(f'Total amount in all warehouses : {amount_available}')
-        print("Amount available: 0")
-        print('Location: Not in Stock')
+        print(f"Maximum availability: {max(max_amount)} in Warehouse {max_amount.index(max(max_amount)+1)}")
+        
     else:
-        
-        for item in wh1:
-            print(f"- Warehouse1 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-        for item in wh2:
-            print(f"- Warehouse2 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-        for item in wh3:
-            print(f"- Warehouse3 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-        for item in wh4:
-            print(f"- Warehouse4 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
-        
-        if len(wh1) > 0 or len(wh2) > 0 or len(wh3) > 0 or len(wh4) > 0:
-            wh_d = {len(wh1): 'Warehouse 1', len(wh2): 'Warehouse 2', len(wh3): 'Warehouse 3', len(wh4): 'Warehouse 4'}
-            maximum = max(wh_d.keys())
-            print(f"Maximum availability: {maximum} in {wh_d[maximum]}")
+        print("Not in stock")
                 
 
 def browse_by_category():
