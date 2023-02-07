@@ -66,15 +66,25 @@ def list_items_by_warehouse():
 def search_and_order_item():
     
     item_name = input('What is the name of the item? ')
-    wh1 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 1 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-    wh2 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 2 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-    wh3 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 3 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-    wh4 = [item['date_of_stock'] for item in stock if item.get('warehouse') == 4 and f"{item['state']} {item['category']}".lower() == item_name.lower()]
-    if len(wh1 + wh2 + wh3 + wh4) == 0:
+    amount_available=0
+    max_amount=[]
+    num_ware= max_warehouse()
+    for i in range(1,num_ware+1) : #list comprehension for the seach items
+        ware_house = [item['date_of_stock'] for item in stock if item.get('warehouse') == i 
+                    and f"{item['state']} {item['category']}".lower() == item_name.lower()]
+        amount_available += len(ware_house)
+        max_amount.append(len(ware_house))
+        today = datetime.datetime.now()
+        for item in ware_house:
+                print(f"Warehouse {i} (in stock for {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
+
+    # search for Item, search for maximum amount return to main menu and search for unlimited number of warehouses
+    if amount_available != 0:
+        print(f'Total amount in all warehouses : {amount_available}')
         print("Amount available: 0")
         print('Location: Not in Stock')
     else:
-        today = datetime.datetime.now()
+        
         for item in wh1:
             print(f"- Warehouse1 (in stock {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
         for item in wh2:
