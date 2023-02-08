@@ -16,6 +16,7 @@ import re
 #from loader import Loader
 #personnel = Loader(model="personnel")
 #stock = Loader(model="stock")
+log = []
 
 # YOUR CODE STARTS HERE
 def get_user_name():
@@ -62,7 +63,22 @@ def list_items_by_warehouse():
         
     print('Thank you for your visit!')
     goodbye()
-            
+
+def order_item(item_name, amount_available):
+
+        cust_order = int(input("How many items would you like to order?"))
+        if cust_order > amount_available:
+            max_purchase = input("Unable to complete transaction. Do you want to order the maximum quantity? (y/n) ")
+            if max_purchase.lower() == "y":
+                cust_order = amount_available
+                print(f" Your order for {cust_order}, {item_name}'s has been placed")
+            else:
+                cust_order = int(input("How many items would you like to order?"))
+                print(f" Your order for {cust_order}, {item_name}'s has been placed")
+                #log.append(f"You ordered {order_number}, {item_order}")
+        else:
+            print(f" Your order for {cust_order}, {item_name}'s has been placed")
+        log.append(f"You ordered {cust_order}, {item_name}")
 
 def search_and_order_item():
     
@@ -79,10 +95,13 @@ def search_and_order_item():
         for item in ware_house:
                 print(f"Warehouse {i} (in stock for {(today - datetime.datetime.strptime(item, '%Y-%m-%d %H:%M:%S')).days} days)")
 
-    # search for Item, search for maximum amount return to main menu and search for unlimited number of warehouses
     if amount_available != 0:
         print(f'Total amount in all warehouses : {amount_available}')
         print(f"Maximum availability: {max(max_amount)} in Warehouse {max_amount.index(max(max_amount)+1)}")
+        log.append(f"You searched for {item_name}")
+        order = input("Would you like to place an order (y/n)?")
+        if order.lower() == "y":
+            order_item(item_name,amount_available)
         
     else:
         print("Not in stock")
@@ -137,7 +156,7 @@ while True:
     elif user_input==2:
     # user_item = input("Please input the item of your choice: ")
         search_and_order_item()
-        break
+        break # think about keeping the customer in the loop until they want to exit
     # Else, if they pick 3
     elif user_input==3:
         browse_by_category()
