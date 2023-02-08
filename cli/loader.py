@@ -67,3 +67,21 @@ class Loader:
     def __iter__(self, *args, **kwargs):
         """Iterate through the objects."""
         yield from self.objects
+
+# pawel loader solution look at pawels code.
+#  def __parse_personnel(self):
+#         """Parse the personnel list."""
+#         Employee = self.__load_class("Employee")
+#         employees1 = self.flatten(employees)
+#         print(employees1)
+#         return [Employee(**employee) for employee in employees1]
+
+#     def flatten(self, lst):
+#         flattened = []
+#         for el in lst:
+#             if "head_of" in el:
+#                 flattened.append(el)
+#                 flattened.extend(self.flatten(el["head_of"]))
+#             else:
+#                 flattened.append(el)
+#         return flattened
